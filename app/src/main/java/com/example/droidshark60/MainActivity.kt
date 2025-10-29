@@ -84,7 +84,7 @@ fun NetSnifferApp(context: Context) {
                 TopAppBar(
                     title = {
                         Text(
-                            "🔍 NetSniffer",
+                            "🔍 DroidShark",
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp
                         )
@@ -114,12 +114,12 @@ fun NetSnifferApp(context: Context) {
                     Tab(
                         selected = selectedTab == 1,
                         onClick = { selectedTab = 1 },
-                        text = { Text("🖥️ Devices") }
+                        text = { Text("🖥️ Dispositivos") }
                     )
                     Tab(
                         selected = selectedTab == 2,
                         onClick = { selectedTab = 2 },
-                        text = { Text("🌐 Services") }
+                        text = { Text("🌐 Servicios") }
                     )
                 }
 
@@ -182,18 +182,18 @@ fun BroadcastTab(
                     containerColor = if (isListening) Color.Red else Color(0xFF00FF00)
                 )
             ) {
-                Text(if (isListening) "⏹ Stop" else "▶ Start")
+                Text(if (isListening) "⏹ Parar" else "▶ Iniciar")
             }
 
             Button(onClick = { packets.clear() }) {
-                Text("🗑️ Clear")
+                Text("🗑️ Limpiar")
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            "Captured: ${packets.size} packets",
+            "Capturados: ${packets.size} packets",
             color = Color(0xFF00FF00),
             fontSize = 14.sp
         )
@@ -232,13 +232,13 @@ fun DevicesTab(
             enabled = !isScanning,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(if (isScanning) "🔄 Scanning..." else "🔍 Scan Network")
+            Text(if (isScanning) "🔄 Escaneando..." else "🔍 Scan Network")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            "Found: ${devices.size} devices",
+            "Encontrados: ${devices.size} dispositivos",
             color = Color(0xFF00FF00),
             fontSize = 14.sp
         )
@@ -283,13 +283,13 @@ fun ServicesTab(
                 containerColor = if (isDiscovering) Color.Red else Color(0xFF00FF00)
             )
         ) {
-            Text(if (isDiscovering) "⏹ Stop Discovery" else "🌐 Discover Services")
+            Text(if (isDiscovering) "⏹ Parar descubrimiento" else "🌐 Descubrir servicios")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            "Found: ${services.size} services",
+            "Encontrados: ${services.size} servicios",
             color = Color(0xFF00FF00),
             fontSize = 14.sp
         )
@@ -320,7 +320,7 @@ fun PacketCard(packet: BroadcastPacket) {
                 fontFamily = FontFamily.Monospace
             )
             Text(
-                "From: ${packet.sourceIP}:${packet.sourcePort}",
+                "De: ${packet.sourceIP}:${packet.sourcePort}",
                 fontSize = 12.sp,
                 color = Color(0xFF58A6FF),
                 fontWeight = FontWeight.Bold
@@ -361,7 +361,7 @@ fun DeviceCard(device: NetworkDevice) {
                 )
             }
             Text(
-                if (device.isReachable) "🟢 Online" else "🔴 Offline",
+                if (device.isReachable) "🟢 En lina" else "🔴 Fuera de linea",
                 fontSize = 12.sp
             )
         }
@@ -423,7 +423,7 @@ class BroadcastListener(private val onPacket: (BroadcastPacket) -> Unit) {
                     onPacket(
                         BroadcastPacket(
                             timestamp = timestamp,
-                            sourceIP = packet.address.hostAddress ?: "Unknown",
+                            sourceIP = packet.address.hostAddress ?: "Desconocido",
                             sourcePort = packet.port,
                             data = data
                         )
@@ -461,7 +461,7 @@ class NetworkScanner(private val context: Context) {
                             NetworkDevice(
                                 ip = host,
                                 isReachable = true,
-                                hostname = try { addr.hostName } catch (e: Exception) { "Unknown" }
+                                hostname = try { addr.hostName } catch (e: Exception) { "Desconocido" }
                             )
                         )
                     }
@@ -496,7 +496,7 @@ class MDNSDiscovery(
                         onService(
                             NetworkService(
                                 name = serviceInfo.serviceName,
-                                host = serviceInfo.host?.hostAddress ?: "Unknown",
+                                host = serviceInfo.host?.hostAddress ?: "Desconocido",
                                 port = serviceInfo.port,
                                 type = serviceInfo.serviceType
                             )
